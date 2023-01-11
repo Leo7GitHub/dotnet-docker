@@ -1,0 +1,43 @@
+services:
+  web:
+    #build: app/aspnetapp
+    ports:
+      - 80:80
+    #mage : dotnet-docker
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=development
+    
+  
+  postgresserver:
+      image: postgres
+      restart: always
+      ports:
+          - 5432:5432
+      environment:
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ToDoApp
+      volumes:
+              - pgdata:/var/lib/postgresql/data
+      #networks: 
+        #       - todoapp-network
+networks: 
+    todoapp-network:
+        driver: bridge
+
+volumes:
+    pgdata:
+
+  
+#     environment:
+#       ACCEPT_EULA: "Y"
+#       SA_PASSWORD: example_123
+#     # mssql server image isn't available for arm64 architecture, so we use azure-sql instead
+#     image: mcr.microsoft.com/azure-sql-edge:1.0.4
+#     # If   db:
+# you really want to use MS SQL Server, uncomment the following line
+#     #image: mcr.microsoft.com/mssql/server
+#     restart: always
+    
